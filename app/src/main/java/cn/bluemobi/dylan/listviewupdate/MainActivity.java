@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                datas.set(position, "update \"万能适配器测试\"" + position);
+                datas.set(position, "update 万能适配器测试" + position);
                 updateSingle(position);
 //                updateItem(position);
 //                commonAdapter.updateItem(listView, position);
