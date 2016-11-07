@@ -44,9 +44,11 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
+            Log.d("listview", "---------LayoutInflater()-----------" + position);
             convertView = LayoutInflater.from(context).inflate(layoutId, null);
+        }else{
         }
-        Log.d("listview", "---------getView()-----------");
+//        Log.d("listview", "---------getView()-----------" + position);
         T t = getItem(position);
         convertView(convertView, t);
         return convertView;
@@ -58,7 +60,7 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
      * @param listView 要更新的listview
      * @param position 要更新的位置
      */
-    public void updateItem(ListView listView, int position) {
+    public void notifyDataSetChanged(ListView listView, int position) {
         /**第一个可见的位置**/
         int firstVisiblePosition = listView.getFirstVisiblePosition();
         /**最后一个可见的位置**/

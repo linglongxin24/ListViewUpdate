@@ -1,8 +1,7 @@
 package cn.bluemobi.dylan.listviewupdate;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -10,12 +9,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import cn.bluemobi.dylan.listviewupdate.adapter.CommonAdapter;
 import cn.bluemobi.dylan.listviewupdate.adapter.CommonViewHolder;
-
-import static android.R.attr.name;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,7 +63,9 @@ public class MainActivity extends AppCompatActivity {
      * 一般的更新界面
      */
     private void updateTest() {
-        final List<String> datas = new ArrayList<>();
+        setContentView(R.layout.activity_main);
+        listView = (ListView) findViewById(R.id.listview);
+        datas = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             datas.add("万能适配器测试" + i);
         }
@@ -113,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 datas.set(position, "update 万能适配器测试" + position);
-                updateSingle(position);
-//                updateItem(position);
+//                updateSingle(position);
+                updateItem(position);
 //                commonAdapter.updateItem(listView, position);
 
             }
@@ -142,7 +140,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * 第二种方法 调用一次getView()方法；Google推荐的做法
+     * 第二种方法 找出对应的ViewHolder，通过ViewHolder去设置值
+     *
+     * @param position 要更新的位置
+     */
+    private void updateOne(int position) {
+        /**第一个可见的位置**/
+        int firstVisiblePosition = listView.getFirstVisiblePosition();
+        /**最后一个可见的位置**/
+        int lastVisiblePosition = listView.getLastVisiblePosition();
+
+        /**在看见范围内才更新，不可见的滑动后自动会调用getView方法更新**/
+        if (position >= firstVisiblePosition && position <= lastVisiblePosition) {
+            /**获取指定位置view对象**/
+            View view = listView.getChildAt(position - firstVisiblePosition);
+            /**通过ViewHolder找出缓存的对应控件**/
+            TextView textView = CommonViewHolder.get(view, R.id.textView);
+            textView.setText(datas.get(position));
+
+        }
+    }
+
+    /**
+     * 第三种方法 调用一次getView()方法,比较省事，谷歌推荐
      *
      * @param position 要更新的位置
      */
